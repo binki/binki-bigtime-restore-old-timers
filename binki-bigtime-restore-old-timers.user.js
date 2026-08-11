@@ -35,7 +35,9 @@
         document.location = f(document.location.toString());
       }  
     };
-    replaceUri(uri => uri.replace(/#.*/, '#/timers'));
+    // There are some pages which aren’t in the BigTime/Entry2 namespace or don’t already have
+    // a hash. So just do a full link.
+    replaceUri(uri => uri.replace(/^([^/]+\/\/[^/]+).*/, '$1/BigTime/Entry2#/timers'));
     e.preventDefault();
     e.stopPropagation();
   });
