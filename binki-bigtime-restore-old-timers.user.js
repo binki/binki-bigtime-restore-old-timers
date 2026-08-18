@@ -6,7 +6,7 @@
 // @match https://*.bigtime.net/bigtime/*
 // @match https://*.bigtime.net/Bigtime
 // @match https://*.bigtime.net/Bigtime/*
-// @match https://*.bigtime.net/frame*
+// @match https://*.bigtime.net/*
 // @require https://github.com/binki/binki-userscript-when-element-query-selector-async/raw/0a9c204bdc304a9e82f1c31d090fdfdf7b554930/binki-userscript-when-element-query-selector-async.js
 // ==/UserScript==
 
