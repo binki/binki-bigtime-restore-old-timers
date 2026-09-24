@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name binki-bigtime-restore-old-timers
 // @homepageURL https://github.com/binki/binki-bigtime-restore-old-timers
-// @version 1.0.3
+// @version 1.0.4
 // @match https://*.bigtime.net/bigtime
 // @match https://*.bigtime.net/bigtime/*
 // @match https://*.bigtime.net/Bigtime
