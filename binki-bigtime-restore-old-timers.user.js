@@ -67,3 +67,41 @@
     console.log('Detected app soft reload.');
   }
 })();
+
+// Fix the issue where the “Add/Start Timer” button gets stuck unclickable and displaying
+// “Adding Timer…”after being used once. See https://github.com/binki/binki-bigtime-restore-old-timers/issues/6.
+//
+// This could be a separate script, but tacking it in here.
+(async () => {
+  if (/^(?i:[^/]+\/\/[^/]+\/bigtime\/entry2)/.test(document.URL)) {
+    const addButton = await whenElementQuerySelectorAsync(document.body, '.timerMenu .footerToolbar a.btn-primary');
+    const initialText = addButton.textContent;
+    const whenClassAsync = async className => {
+      while (!addButton.classList.contains(className)) {
+        await whenElementChangedAsync(addButton, {
+          attributes: true,
+          attributeFilter: [
+            'class',
+          ],
+        });
+      }
+    };
+    while (true) {
+      // In order to avoid busy looping, wait for the button to be pressed. This isn’t necessary
+      // the first time through the loop but is critical to avoid spinning once we fix the button
+      // after detecting that the add dialog has been shown. Use Developer Tools’s GRPS mode (after
+      // first letting the page load of course) to see the AJAX (AJAJ?) delay.
+      await whenClassAsync('disabled');
+      // When the internet is really slow, we need to let the button display the intermediate state.
+      // When the button is done displaying the intermediate state, the add dialog will be shown and
+      // the button will be hidden (the add dialog actually uses the same page/pane/layout and even
+      // button panel as the original list which is interesting but it actually makes this easier
+      // for us).
+      await whenClassAsync('ng-hide');
+      // Then we can fix things so that the button is ready when it is un-hidden when the dialog
+      // is submitted.
+      addButton.classList.remove('disabled');
+      addButton.textContent = initialText;
+    }
+  }
+})();
